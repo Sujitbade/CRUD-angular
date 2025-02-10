@@ -1,21 +1,15 @@
 {
   "todos": [
     {
-      "id": 1,
-      "task": "New Task",
-      "description": "New task description",
-      "completed": false
+      "id": "cbb8",
+      "task": "First Task",
+      "description": "First task description",
+      "completed": true
     },
     {
-      "id": 2,
-      "task": "Task Fir",
-      "description": "asdjkas",
-      "completed": false
-    },
-    {
-      "id": 3,
-      "task": "asd",
-      "description": "adsd",
+      "id": "120a",
+      "task": "Second Task",
+      "description": "task description",
       "completed": false
     }
   ]

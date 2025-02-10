@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TodoService } from '../todo.service';
 import { Todo } from '../todo';
 import { ToastrService } from 'ngx-toastr';
+import { EditComponent } from '../edit/edit.component';
 
 @Component({
   selector: 'app-home',
@@ -55,5 +56,8 @@ export class HomeComponent implements OnInit {
         }
       });
     }
+  }
+
+  onEdit(id: number): void {
   }
 }

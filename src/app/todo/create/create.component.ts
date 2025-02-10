@@ -28,11 +28,10 @@ export class CreateComponent {
     }
 
     const todo: Todo = {
-      task: this.todoForm.value.task,
-      description: this.todoForm.value.description,
-      completed: false,
-      id: 0
+      ...this.todoForm.value,
+      completed:false
     };
+    
 
     this.todoService.addTodo(todo).subscribe(() => {
       this.todoForm.reset();
