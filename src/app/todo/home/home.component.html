@@ -1,0 +1,32 @@
+<div class="container mt-4">
+  <h4>Your Todos</h4>
+
+  <div *ngIf="todos && todos.length > 0">
+    <table class="table table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>S.No</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let todo of todos; let i = index">
+          <td> {{ i + 1 }} </td>
+          <td>{{ todo.task }}</td>
+          <td>{{ todo.description }}</td>
+            <td [ngClass]="{ 'text-success': todo.completed, 'text-danger': !todo.completed }">
+            {{ todo.completed ? 'Completed' : 'Not Completed' }}
+            </td>
+          <td class="d-flex justify-content-around">
+            <button class="btn btn-success ml-2"(click)="onCompleted(todo.id)"> <i class="fa fa-check-square-o" aria-hidden="true"> </i></button>
+            <button class="btn btn-danger ml-2" (click)="onRemove(todo.id)"> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+            <button class="btn btn-warning ml-2"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
