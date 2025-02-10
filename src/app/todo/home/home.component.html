@@ -21,9 +21,9 @@
             {{ todo.completed ? 'Completed' : 'Not Completed' }}
             </td>
           <td class="d-flex justify-content-around">
-            <button class="btn btn-success ml-2"(click)="onCompleted(todo.id)"> <i class="fa fa-check-square-o" aria-hidden="true"> </i></button>
+            <button class="btn btn-success ml-2" (click)="onCompleted(todo.id)"> <i class="fa fa-check-square-o" aria-hidden="true"> </i></button>
             <button class="btn btn-danger ml-2" (click)="onRemove(todo.id)"> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
-            <button class="btn btn-warning ml-2"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+            <button class="btn btn-warning ml-2" [routerLink]="['/todo/edit', todo.id]"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
           </td>
         </tr>
       </tbody>

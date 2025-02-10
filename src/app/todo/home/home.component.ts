@@ -57,7 +57,4 @@ export class HomeComponent implements OnInit {
       });
     }
   }
-
-  onEdit(id: number): void {
-  }
 }

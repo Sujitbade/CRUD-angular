@@ -1,30 +1,28 @@
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="ModalForm" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ModalTitle">Create a new Todo</h5>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="editedTodo" >
-          <div>
-            <label for="">Task</label>
-            <input type="text" class="form-control" placeholder="Task" formControlName="task">
-            <div class="text-danger" *ngIf="editedTodo.controls['task'].invalid && (editedTodo.controls['task'].touched || editedTodo.controls['task'].dirty)">
-              <span *ngIf="editedTodo.controls['task'].errors?.['required']"> This is required </span>
+<div class="container">
+
+  <form [formGroup]="editedTodo" >
+    <div>
+      <label for="">Task</label>
+      <input type="text" class="form-control" [(ngModel)]="todos.task" formControlName="task">
+      <div class="text-danger" *ngIf="editedTodo.controls['task'].invalid && (editedTodo.controls['task'].touched || editedTodo.controls['task'].dirty)">
+        <span *ngIf="editedTodo.controls['task'].errors?.['required']"> This is required </span>
             </div>
           </div>
           <div>
             <label for="">Description</label>
-            <input type="text" class="form-control" placeholder="Description" formControlName="description">
+            <input type="text" class="form-control" [(ngModel)]="todos.description" formControlName="description">
             <div class="text-danger" *ngIf="editedTodo.controls['description'].invalid && (editedTodo.controls['description'].touched || editedTodo.controls['description'].dirty)">
               <span *ngIf="editedTodo.controls['description'].errors?.['required']"> This is required </span>
             </div>
           </div>
         </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      <button class="btn btn-success" (click)="onSave()" data-bs-dismiss="modal"> Save</button>
-    </div>
-  </div>
-</div>
+
+        <div class="mt-4 d-flex justify-content-evenly w-25">
+          <div>
+            <button class="btn btn-success" (click)="update()" >Save</button>
+          </div>
+          <div>
+            <button class="btn btn-danger" (click)="cancel()" >Cancel</button>
+          </div>
+        </div>
+      </div>

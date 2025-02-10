@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TodoService } from '../todo.service';
 import { Todo } from '../todo';
 import { ToastrService } from 'ngx-toastr';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create',
@@ -13,8 +14,9 @@ import { ToastrService } from 'ngx-toastr';
 export class CreateComponent {
 
   todoForm: FormGroup;
+todos: any;
 
-  constructor(private todoService: TodoService) {
+  constructor(private todoService: TodoService, private toastr:ToastrService, private router:Router) {
     this.todoForm = new FormGroup({
       task: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required)
@@ -33,8 +35,16 @@ export class CreateComponent {
     };
     
 
-    this.todoService.addTodo(todo).subscribe(() => {
-      this.todoForm.reset();
+    this.todoService.addTodo(todo).subscribe({
+      next: () => {
+        this.todoForm.reset();
+        this.router.navigate(['home']);
+        this.toastr.success('To-Do task added successfully');
+      },
+      error: (err: any) => {
+        console.error('Error updating To-Do:', err);
+        this.toastr.warning('To-Do error');
+      }
     });
   }
 }

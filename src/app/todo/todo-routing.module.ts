@@ -9,6 +9,7 @@ const routes: Routes = [
   { path:'',   redirectTo: 'home', pathMatch: 'full' },
   {path: 'edit', component:EditComponent},
   {path: 'create', component:CreateComponent},
+  {path :'todo/edit/:id', component:EditComponent}
 ];
 
 @NgModule({

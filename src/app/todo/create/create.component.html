@@ -1,36 +1,26 @@
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-    Add Todo
-</button>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="ModalForm" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="ModalTitle">Create a new Todo</h5>
+<div class="container mt-4">
+  <div class="card shadow-sm p-3">
+    <h4 class="mb-3 text-center">Create a New Todo</h4>
+    <form [formGroup]="todoForm">
+      <div class="mb-3">
+        <label for="task" class="form-label">Task</label>
+        <input type="text" id="task" class="form-control" placeholder="Enter task" formControlName="task">
+        <div class="text-danger mt-1" *ngIf="todoForm.controls['task'].invalid && (todoForm.controls['task'].touched || todoForm.controls['task'].dirty)">
+          <span *ngIf="todoForm.controls['task'].errors?.['required']">This field is required</span>
         </div>
-        <div class="modal-body">
-          <form [formGroup]="todoForm" >
-            <div>
-              <label for="">Task</label>
-              <input type="text" class="form-control" placeholder="Task" formControlName="task">
-              <div class="text-danger" *ngIf="todoForm.controls['task'].invalid && (todoForm.controls['task'].touched || todoForm.controls['task'].dirty)">
-                <span *ngIf="todoForm.controls['task'].errors?.['required']"> This is required </span>
-              </div>
-            </div>
-            <div>
-              <label for="">Description</label>
-              <input type="text" class="form-control" placeholder="Description" formControlName="description">
-              <div class="text-danger" *ngIf="todoForm.controls['description'].invalid && (todoForm.controls['description'].touched || todoForm.controls['description'].dirty)">
-                <span *ngIf="todoForm.controls['description'].errors?.['required']"> This is required </span>
-              </div>
-            </div>
-          </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button class="btn btn-success" (click)="onSave()" data-bs-dismiss="modal"> Save</button>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" id="description" class="form-control" placeholder="Enter description" formControlName="description">
+        <div class="text-danger mt-1" *ngIf="todoForm.controls['description'].invalid && (todoForm.controls['description'].touched || todoForm.controls['description'].dirty)">
+          <span *ngIf="todoForm.controls['description'].errors?.['required']">This field is required</span>
+        </div>
       </div>
-    </div>
+
+      <div>
+        <button type="submit" class="btn btn-success" (click)="onSave()">Save</button>
+      </div>
+    </form>
   </div>
+</div>
