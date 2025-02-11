@@ -1,27 +1,21 @@
 {
   "todos": [
     {
-      "id": "bc38",
-      "task": "First Task",
-      "description": "First task description",
-      "completed": false
-    },
-    {
-      "id": "b26b",
       "task": "Second Task",
       "description": "Second task description",
-      "completed": false
+      "id": "b26b",
+      "completed": true
     },
     {
-      "id": "5a06",
-      "task": "Third Task",
-      "description": "Third task description",
-      "completed": false
+      "id": "c570",
+      "task": "Test Task",
+      "description": "Test Task Description",
+      "completed": true
     },
     {
-      "id": "fed3",
-      "task": "Fourth Task",
-      "description": "Fourth Task",
+      "id": "69f9",
+      "task": "Task ONE",
+      "description": "One task description",
       "completed": false
     }
   ]

@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "^19.1.0",
     "@angular/router": "^19.1.0",
     "@fortawesome/angular-fontawesome": "^1.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^18.0.0",
     "angular-font-awesome": "^3.1.2",
     "bootstrap": "^5.3.3",
     "fa-icons": "^0.2.0",

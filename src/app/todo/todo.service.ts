@@ -29,7 +29,7 @@ export class TodoService {
     return this.http.put<Todo>(url, todo);
   }
   
-  deleteTodo(id: number): Observable<Todo> {
+  deleteTodo(id:number): Observable<Todo> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete<Todo>(url);
   }

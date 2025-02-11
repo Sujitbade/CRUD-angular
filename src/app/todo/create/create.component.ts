@@ -3,13 +3,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TodoService } from '../todo.service';
 import { Todo } from '../todo';
 import { ToastrService } from 'ngx-toastr';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create',
   standalone: false,
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.css'] // Corrected property name
+  styleUrls: ['./create.component.css']
 })
 export class CreateComponent {
 

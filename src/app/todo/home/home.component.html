@@ -14,19 +14,45 @@
       </thead>
       <tbody>
         <tr *ngFor="let todo of todos; let i = index">
-          <td> {{ i + 1 }} </td>
+          <td>{{ i + 1 }}</td>
           <td>{{ todo.task }}</td>
           <td>{{ todo.description }}</td>
-            <td [ngClass]="{ 'text-success': todo.completed, 'text-danger': !todo.completed }">
+          <td [ngClass]="{ 'text-success': todo.completed, 'text-danger': !todo.completed }">
             {{ todo.completed ? 'Completed' : 'Not Completed' }}
-            </td>
+          </td>
           <td class="d-flex justify-content-around">
-            <button class="btn btn-success ml-2" (click)="onCompleted(todo.id)"> <i class="fa fa-check-square-o" aria-hidden="true"> </i></button>
-            <button class="btn btn-danger ml-2" (click)="onRemove(todo.id)"> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
-            <button class="btn btn-warning ml-2" [routerLink]="['/todo/edit', todo.id]"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+            <button class="btn btn-success ml-2" (click)="openConfirmationDialog(todo.id)">
+              <i class="fa fa-check-square-o" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-danger ml-2" data-bs-toggle="modal" [attr.data-bs-target]="'#deleteConfirmation' + todo.id">
+              <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-warning ml-2" [routerLink]="['/todo/edit', todo.id]">
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div *ngFor="let todo of todos">
+    <div class="modal fade" [id]="'deleteConfirmation' + todo.id" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirm Deletion</h5>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete <span style="color : red;">{{todo.task}}</span></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="onRemove(todo.id)" data-bs-dismiss="modal">Delete</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

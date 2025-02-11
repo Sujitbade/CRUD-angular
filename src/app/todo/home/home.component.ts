@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TodoService } from '../todo.service';
 import { Todo } from '../todo';
 import { ToastrService } from 'ngx-toastr';
-import { EditComponent } from '../edit/edit.component';
+import { ConfirmationModalService } from '../confirmation-modal/confirmation-modal.service';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +13,7 @@ import { EditComponent } from '../edit/edit.component';
 export class HomeComponent implements OnInit {
   todos: Todo[] = [];
 
-  constructor(private todoService: TodoService, private toastr: ToastrService) {}
+  constructor(private todoService: TodoService, private toastr: ToastrService, private confirmationDialogService:ConfirmationModalService) {}
 
   ngOnInit(): void {
     this.todoService.getAllTodo().subscribe((result) => {
@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit {
   }
 
   onRemove(id: number): void {
-    if (confirm("Are you sure you want to delete this todo?")) {
       this.todoService.deleteTodo(id).subscribe({
         next: () => {
           this.todos = this.todos.filter(todo => todo.id !== id);
@@ -34,27 +33,33 @@ export class HomeComponent implements OnInit {
           this.toastr.error('Failed to delete todo');
         }
       });
-    }
   }
 
-  onCompleted(id: number): void {
-    if (confirm("Do you want to mark this task as complete?")) {
-      this.todoService.updateTaskState(id).subscribe({
-        next: () => {
-          this.todoService.getAllTodo().subscribe({
-            next: (result) => {
-              this.todos = result;
-              this.toastr.success('Todo marked as complete');
+  openConfirmationDialog(id: number) {
+    this.confirmationDialogService
+      .confirm('Complete Task', 'Are you sure you want to mark the task as completed?')
+      .then((confirmed) => {
+        if (confirmed) {
+          this.todoService.updateTaskState(id).subscribe({
+            next: () => {
+              this.todoService.getAllTodo().subscribe({
+                next: (result) => {
+                  this.todos = result;
+                  this.toastr.success('Todo marked as complete');
+                },
+                error: () => {
+                  this.toastr.error('Failed to fetch updated todos');
+                }
+              });
             },
             error: () => {
-              this.toastr.error('Failed to fetch updated todos');
+              this.toastr.error('Failed to mark todo as complete');
             }
           });
-        },
-        error: () => {
-          this.toastr.error('Failed to mark todo as complete');
+        } else {
+          console.log("User dismissed");
         }
-      });
-    }
+      })
+      .catch(() => console.log("Modal dismissed unexpectedly"));
   }
 }
