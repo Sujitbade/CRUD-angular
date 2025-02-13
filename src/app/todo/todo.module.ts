@@ -8,11 +8,14 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserModule } from '@angular/platform-browser';
+import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
+
 @NgModule({
   declarations: [
     HomeComponent,
     CreateComponent,
-    EditComponent
+    EditComponent,
+    ConfirmationModalComponent
   ],
   imports: [
     CommonModule,

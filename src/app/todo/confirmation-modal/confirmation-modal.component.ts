@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, EventEmitter, Input,OnInit,Output } from '@angular/core';
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -7,27 +6,24 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './confirmation-modal.component.html',
   styleUrl: './confirmation-modal.component.css'
 })
-export class ConfirmationModalComponent implements OnInit {
-
+export class ConfirmationModalComponent implements OnInit{
+  @Input() showModal: boolean = false;
   @Input() title: string = '';
   @Input() message: string = '';
   @Input() btnOktext: string = '';
   @Input() btnCancel: string = '';
 
-  constructor(private activeModal: NgbActiveModal) { }
+  @Output() confirmEvent = new EventEmitter<void>();
+  @Output() cancelEvent = new EventEmitter<void>();
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
-  public decline() {
-    this.activeModal.close(false);
+  confirm(){
+    this.confirmEvent.emit();
   }
 
-  public accept() {
-    this.activeModal.close(true);
-  }
-
-  public dismiss() {
-    this.activeModal.dismiss();
+  cancel(){
+    this.cancelEvent.emit()
   }
 }

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { TodoService } from '../todo.service';
 import { Todo } from '../todo';
 import { ToastrService } from 'ngx-toastr';
-import { ConfirmationModalService } from '../confirmation-modal/confirmation-modal.service';
 
 @Component({
   selector: 'app-home',
@@ -11,9 +10,17 @@ import { ConfirmationModalService } from '../confirmation-modal/confirmation-mod
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  isModalOpen: boolean = false;
+  modalTitle: string = "";
+  modalMessage : string = "";
+  modalCancelText : string ="";
+  modalConfirmText : string ="";
+  actionId : number = 0;
+  selectedId? : number;
+
   todos: Todo[] = [];
 
-  constructor(private todoService: TodoService, private toastr: ToastrService, private confirmationDialogService:ConfirmationModalService) {}
+  constructor(private todoService: TodoService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.todoService.getAllTodo().subscribe((result) => {
@@ -21,10 +28,44 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onRemove(id: number): void {
-      this.todoService.deleteTodo(id).subscribe({
+  openModal(action:number, title: string, message : string, btnCancel:string, btnOktext:string, id?:number){
+    this.actionId = action;
+    this.modalTitle = title;
+    this.modalMessage = message;
+    this.modalCancelText = btnCancel;
+    this.modalConfirmText = btnOktext;
+    this.selectedId= id;
+    this.isModalOpen = true;
+  }
+
+  closeModal(){
+    this.isModalOpen = false;
+  }
+  
+  handleConfirm() {
+    this.isModalOpen = false;
+
+    if (this.actionId === 1 && this.selectedId){
+      this.todoService.updateTaskState(this.selectedId).subscribe({
         next: () => {
-          this.todos = this.todos.filter(todo => todo.id !== id);
+          this.todoService.getAllTodo().subscribe({
+            next: (result) => {
+              this.todos = result;
+              this.toastr.success('Todo marked as complete');
+            },
+            error: () => {
+              this.toastr.error('Failed to fetch updated todos');
+            }
+          });
+        },
+        error: () => {
+          this.toastr.error('Failed to mark todo as complete');
+        }
+      });
+    }else if(this.actionId ===2 && this.selectedId){
+      this.todoService.deleteTodo(this.selectedId).subscribe({
+        next: () => {
+          this.todos = this.todos.filter(todo => todo.id !== this.selectedId);
           this.toastr.success('Sucessfully deleted the task', 'Sucess', {
            timeOut: 3000,
          });
@@ -33,33 +74,6 @@ export class HomeComponent implements OnInit {
           this.toastr.error('Failed to delete todo');
         }
       });
+    }
   }
-
-  openConfirmationDialog(id: number) {
-    this.confirmationDialogService
-      .confirm('Complete Task', 'Are you sure you want to mark the task as completed?')
-      .then((confirmed) => {
-        if (confirmed) {
-          this.todoService.updateTaskState(id).subscribe({
-            next: () => {
-              this.todoService.getAllTodo().subscribe({
-                next: (result) => {
-                  this.todos = result;
-                  this.toastr.success('Todo marked as complete');
-                },
-                error: () => {
-                  this.toastr.error('Failed to fetch updated todos');
-                }
-              });
-            },
-            error: () => {
-              this.toastr.error('Failed to mark todo as complete');
-            }
-          });
-        } else {
-          console.log("User dismissed");
-        }
-      })
-      .catch(() => console.log("Modal dismissed unexpectedly"));
   }
-}

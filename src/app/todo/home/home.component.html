@@ -1,6 +1,5 @@
 <div class="container mt-4">
   <h4>Your Todos</h4>
-
   <div *ngIf="todos && todos.length > 0">
     <table class="table table-bordered">
       <thead class="table-dark">
@@ -21,38 +20,33 @@
             {{ todo.completed ? 'Completed' : 'Not Completed' }}
           </td>
           <td class="d-flex justify-content-around">
-            <button class="btn btn-success ml-2" (click)="openConfirmationDialog(todo.id)">
+            <!-- Mark Complete -->
+            <button class="btn btn-success ml-2" (click)="openModal(1, 'Save Changes', 'Do you want to save your changes?','Cancel', 'Save', todo.id)">
               <i class="fa fa-check-square-o" aria-hidden="true"></i>
             </button>
-            <button class="btn btn-danger ml-2" data-bs-toggle="modal" [attr.data-bs-target]="'#deleteConfirmation' + todo.id">
+
+            <!-- DELETE BUTTON (Triggers Confirmation Modal) -->
+            <button class="btn btn-danger ml-2" (click)="openModal(2, 'Delete Task', 'Are you sure you want to delete this task?', 'Cancel', 'Delete', todo.id)">
               <i class="fa fa-trash-o" aria-hidden="true"></i>
             </button>
+
+            <!-- Edit -->
             <button class="btn btn-warning ml-2" [routerLink]="['/todo/edit', todo.id]">
               <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
             </button>
           </td>
         </tr>
       </tbody>
-    </table>
+    </table>  
   </div>
-
-  <!-- Delete Confirmation Modal -->
-  <div *ngFor="let todo of todos">
-    <div class="modal fade" [id]="'deleteConfirmation' + todo.id" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Confirm Deletion</h5>
-          </div>
-          <div class="modal-body">
-            <p>Are you sure you want to delete <span style="color : red;">{{todo.task}}</span></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" (click)="onRemove(todo.id)" data-bs-dismiss="modal">Delete</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <!-- REUSABLE CONFIRMATION MODAL -->
+    <app-confirmation-modal
+    [showModal]="isModalOpen"
+    [title]="modalTitle"
+    [message]="modalMessage"
+    [btnCancel]="modalCancelText"
+    [btnOktext]="modalConfirmText"
+    (confirmEvent)="handleConfirm()"
+    (cancelEvent)="closeModal()">
+  </app-confirmation-modal>
 </div>
